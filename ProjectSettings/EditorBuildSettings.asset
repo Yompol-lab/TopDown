@@ -8,6 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Juego.unity
+    guid: 3ec2a5de52106e44695273a68ca4346b
+  - enabled: 1
+    path: Assets/Scenes/Moriste.unity
+    guid: 96f2763243d1a5248bd150c492fdb026
+  - enabled: 1
+    path: Assets/Scenes/Ganaste.unity
+    guid: 2d22f9ae237436843920b22c04cdabd0
+  - enabled: 1
+    path: Assets/Scenes/Creditos.unity
+    guid: d7e4b5d07b5ff8345b508f4080a4caad
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
