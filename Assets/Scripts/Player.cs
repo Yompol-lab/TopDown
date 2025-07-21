@@ -8,9 +8,11 @@ public class Player : MonoBehaviour
 
     [Header("Movimiento")]
     public float moveSpeed = 5f;
+    public float flashSpeed = 15f;
+    private float currentSpeed;
     private Vector2 moveInput;
 
-    [Header("Rotaci�n con mouse")]
+    [Header("Rotación con mouse")]
     public Camera mainCamera;
     public LayerMask groundMask;
 
@@ -23,14 +25,24 @@ public class Player : MonoBehaviour
     private Vector3 originalScale;
     private bool isCrouching = false;
 
+    [Header("Flash Mode")]
+    public KeyCode flashKey = KeyCode.LeftShift;
+    private bool inFlashTime = false;
+
+    [Header("Audios")]
+    public AudioSource musicaFondo;   // Música de fondo
+    public AudioSource musicaFlash;   // Música de "Quicksilver"
+    public AudioSource audioFx;       // Efecto al entrar en Flash
+
     private Rigidbody rb;
-    private Animator animator; 
+    private Animator animator;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
         originalScale = transform.localScale;
-        animator = GetComponent<Animator>(); 
+        currentSpeed = moveSpeed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -62,8 +74,6 @@ public class Player : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-
-
         if (context.performed)
         {
             weapon.Shoot();
@@ -72,14 +82,26 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-       
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        
+        if (Input.GetKeyDown(flashKey))
+        {
+            currentSpeed = flashSpeed;
+            ActivarFlashTime();
+        }
 
+        
+        if (Input.GetKeyUp(flashKey))
+        {
+            currentSpeed = moveSpeed;
+            DesactivarFlashTime();
+        }
+
+        
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundMask))
         {
             Vector3 lookPoint = hit.point;
             lookPoint.y = transform.position.y;
-
             Vector3 direction = lookPoint - transform.position;
 
             if (direction.magnitude > 0.1f)
@@ -90,11 +112,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     void FixedUpdate()
     {
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y) * moveSpeed;
-        move.y = rb.linearVelocity.y;
-        rb.linearVelocity = move;
+        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y) * currentSpeed;
+        move.y = rb.velocity.y;
+        rb.velocity = move;
 
         if (isJumping)
         {
@@ -107,4 +130,41 @@ public class Player : MonoBehaviour
     {
         return Physics.Raycast(transform.position, Vector3.down, 1.1f);
     }
+
+    void ActivarFlashTime()
+    {
+        if (inFlashTime) return;
+
+        inFlashTime = true;
+        Time.timeScale = 0.3f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        if (musicaFondo != null && musicaFondo.isPlaying)
+            musicaFondo.Pause();
+
+        if (musicaFlash != null)
+        {
+            if (musicaFlash.isPlaying)
+                musicaFlash.UnPause();
+            else
+                musicaFlash.Play();
+        }
+
+        if (audioFx != null)
+            audioFx.Play();
+    }
+
+    void DesactivarFlashTime()
+    {
+        inFlashTime = false;
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        if (musicaFlash != null && musicaFlash.isPlaying)
+            musicaFlash.Pause();  
+
+        if (musicaFondo != null)
+            musicaFondo.UnPause();
+    }
+
 }
