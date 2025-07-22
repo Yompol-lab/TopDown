@@ -124395,6 +124395,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010027474550, guid: 0b7c9827b6b0ccd4ab7960965f8621d7, type: 3}
   m_PrefabInstance: {fileID: 342544961}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &629455875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 629455876}
+  m_Layer: 0
+  m_Name: PuntoCamaraPrimeraPersona
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &629455876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629455875}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.724, z: 0.16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1446322086}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &629736937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199144,7 +199175,7 @@ GameObject:
   - component: {fileID: 1108267664}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -389908,7 +389939,10 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 81b406d084606624a8dfb2e9f0db2813, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 977993901576103162, guid: 465bf5f185a73d541a33379082dcf23d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 629455876}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 977993901576468698, guid: 465bf5f185a73d541a33379082dcf23d, type: 3}
       insertIndex: -1

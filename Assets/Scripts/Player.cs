@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     [Header("Movimiento")]
     public float moveSpeed = 5f;
-    public float flashSpeed = 15f;
+    public float flashSpeed = 15f;              
     private float currentSpeed;
     private Vector2 moveInput;
 
@@ -25,14 +25,18 @@ public class Player : MonoBehaviour
     private Vector3 originalScale;
     private bool isCrouching = false;
 
-    [Header("Flash Mode")]
+    [Header("Flash Mode / Flash Time")]
     public KeyCode flashKey = KeyCode.LeftShift;
+    [Range(0.05f, 1f)] public float slowedTimeScale = 0.3f;  
     private bool inFlashTime = false;
 
     [Header("Audios")]
-    public AudioSource musicaFondo;   // Música de fondo
-    public AudioSource musicaFlash;   // Música de "Quicksilver"
-    public AudioSource audioFx;       // Efecto al entrar en Flash
+    public AudioSource musicaFondo;   
+    public AudioSource musicaFlash;   
+    public AudioSource audioFx;      
+
+    [Header("Efectos de Rayos")]
+    public GameObject[] lightningEffects;  
 
     private Rigidbody rb;
     private Animator animator;
@@ -43,7 +47,12 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         originalScale = transform.localScale;
         currentSpeed = moveSpeed;
+
+       
+        SetLightningEffects(false);
     }
+
+    
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -74,51 +83,56 @@ public class Player : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && weapon != null)
         {
             weapon.Shoot();
         }
     }
 
+    
+
     void Update()
     {
-        
+       
         if (Input.GetKeyDown(flashKey))
         {
             currentSpeed = flashSpeed;
             ActivarFlashTime();
         }
-
-        
         if (Input.GetKeyUp(flashKey))
         {
             currentSpeed = moveSpeed;
             DesactivarFlashTime();
         }
 
-        
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundMask))
+       
+        if (mainCamera != null)
         {
-            Vector3 lookPoint = hit.point;
-            lookPoint.y = transform.position.y;
-            Vector3 direction = lookPoint - transform.position;
-
-            if (direction.magnitude > 0.1f)
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundMask))
             {
-                Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 15f);
+                Vector3 lookPoint = hit.point;
+                lookPoint.y = transform.position.y;
+                Vector3 direction = lookPoint - transform.position;
+
+                if (direction.sqrMagnitude > 0.01f)
+                {
+                    Quaternion lookRotation = Quaternion.LookRotation(direction.normalized);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 15f);
+                }
             }
         }
     }
 
-    [System.Obsolete]
     void FixedUpdate()
     {
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y) * currentSpeed;
-        move.y = rb.velocity.y;
-        rb.velocity = move;
+        
+        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y) * currentSpeed;
+        move.y = rb.linearVelocity.y; // conservar velocidad vertical
 
+        rb.linearVelocity = move;
+
+        // Salto
         if (isJumping)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -126,45 +140,71 @@ public class Player : MonoBehaviour
         }
     }
 
+
     private bool IsGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, 1.1f);
     }
 
+    
+
     void ActivarFlashTime()
     {
         if (inFlashTime) return;
-
         inFlashTime = true;
-        Time.timeScale = 0.3f;
+
+        Time.timeScale = slowedTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
+       
         if (musicaFondo != null && musicaFondo.isPlaying)
             musicaFondo.Pause();
 
         if (musicaFlash != null)
         {
+           
             if (musicaFlash.isPlaying)
                 musicaFlash.UnPause();
             else
                 musicaFlash.Play();
         }
 
+       
         if (audioFx != null)
             audioFx.Play();
+
+        
+        SetLightningEffects(true);
     }
 
     void DesactivarFlashTime()
     {
         inFlashTime = false;
+
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
 
+       
         if (musicaFlash != null && musicaFlash.isPlaying)
-            musicaFlash.Pause();  
+            musicaFlash.Pause();
 
+        
         if (musicaFondo != null)
             musicaFondo.UnPause();
+
+        
+        SetLightningEffects(false);
     }
 
+    
+
+    void SetLightningEffects(bool active)
+    {
+        if (lightningEffects == null) return;
+        for (int i = 0; i < lightningEffects.Length; i++)
+        {
+            if (lightningEffects[i] != null)
+                lightningEffects[i].SetActive(active);
+        }
+    }
 }
