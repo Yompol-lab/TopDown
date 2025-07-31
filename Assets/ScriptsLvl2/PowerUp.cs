@@ -3,6 +3,14 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     public float duration = 15f;
+    public float speed = 7.0f;
+
+
+    void Update()
+    {
+        transform.position += Vector3.back * speed * Time.deltaTime;
+    }
+
 
     void OnTriggerEnter(Collider other)
     {

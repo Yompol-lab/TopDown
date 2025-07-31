@@ -545,7 +545,6 @@ GameObject:
   - component: {fileID: 3477816717726760515}
   - component: {fileID: 1815388969201956432}
   - component: {fileID: 243300833869246552}
-  - component: {fileID: 6126252610353003980}
   m_Layer: 0
   m_Name: Jefazo
   m_TagString: Boss
@@ -623,26 +622,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6126252610353003980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4375385864622439500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31ff7b5c9f44de043937e14f7e6b2c5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  health: 20
-  damageToPlayer: 3
-  minX: -107.9
-  maxX: 111.3
-  bulletPrefab: {fileID: 3211339256411515289, guid: f83cc949875bb0846834322b43c85c86, type: 3}
-  firePoint: {fileID: 0}
-  shootDelay: 2
 --- !u!1 &4960781472863984345
 GameObject:
   m_ObjectHideFlags: 0
