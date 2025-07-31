@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     void CambiarEscena()
     {
-        SceneManager.LoadScene("Ganaste");
+        SceneManager.LoadScene("Nivel2");
     }
 
     

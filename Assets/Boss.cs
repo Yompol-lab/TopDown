@@ -19,6 +19,6 @@ public class Boss : MonoBehaviour
 
     void Morir()
     {
-        SceneManager.LoadScene("Ganaste");
+        SceneManager.LoadScene("Nivel2");
     }
 }

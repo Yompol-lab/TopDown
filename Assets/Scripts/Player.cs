@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     [Header("Movimiento")]
     public float moveSpeed = 5f;
-    public float flashSpeed = 15f;              
+    public float flashSpeed = 15f;
     private float currentSpeed;
     private Vector2 moveInput;
 
@@ -27,16 +27,16 @@ public class Player : MonoBehaviour
 
     [Header("Flash Mode / Flash Time")]
     public KeyCode flashKey = KeyCode.LeftShift;
-    [Range(0.05f, 1f)] public float slowedTimeScale = 0.3f;  
+    [Range(0.05f, 1f)] public float slowedTimeScale = 0.3f;
     private bool inFlashTime = false;
 
     [Header("Audios")]
-    public AudioSource musicaFondo;   
-    public AudioSource musicaFlash;   
-    public AudioSource audioFx;      
+    public AudioSource musicaFondo;
+    public AudioSource musicaFlash;
+    public AudioSource audioFx;
 
     [Header("Efectos de Rayos")]
-    public GameObject[] lightningEffects;  
+    public GameObject[] lightningEffects;
 
     private Rigidbody rb;
     private Animator animator;
@@ -48,11 +48,8 @@ public class Player : MonoBehaviour
         originalScale = transform.localScale;
         currentSpeed = moveSpeed;
 
-       
         SetLightningEffects(false);
     }
-
-    
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -64,6 +61,9 @@ public class Player : MonoBehaviour
         if (context.performed && IsGrounded() && !isCrouching)
         {
             isJumping = true;
+
+            if (animator != null)
+                animator.SetTrigger("JumpTrigger");  // Activar animación de salto
         }
     }
 
@@ -89,11 +89,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    
-
     void Update()
     {
-       
         if (Input.GetKeyDown(flashKey))
         {
             currentSpeed = flashSpeed;
@@ -105,7 +102,7 @@ public class Player : MonoBehaviour
             DesactivarFlashTime();
         }
 
-       
+        // Girar hacia el mouse
         if (mainCamera != null)
         {
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -124,15 +121,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     void FixedUpdate()
     {
-        
-        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y) * currentSpeed;
-        move.y = rb.linearVelocity.y; // conservar velocidad vertical
+        if (animator != null)
+        {
+            animator.SetBool("isGrounded", IsGrounded());
+        }
 
-        rb.linearVelocity = move;
 
-        // Salto
+        // Movimiento con velocidad corregida
+        Vector3 move = new Vector3(moveInput.x, rb.velocity.y, moveInput.y) * currentSpeed;
+        rb.velocity = move;
+
+        // Salto si está marcado
         if (isJumping)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -140,13 +142,11 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+        // Más preciso para evitar falsos negativos
+        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, 0.2f);
     }
-
-    
 
     void ActivarFlashTime()
     {
@@ -156,24 +156,20 @@ public class Player : MonoBehaviour
         Time.timeScale = slowedTimeScale;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
-       
         if (musicaFondo != null && musicaFondo.isPlaying)
             musicaFondo.Pause();
 
         if (musicaFlash != null)
         {
-           
             if (musicaFlash.isPlaying)
                 musicaFlash.UnPause();
             else
                 musicaFlash.Play();
         }
 
-       
         if (audioFx != null)
             audioFx.Play();
 
-        
         SetLightningEffects(true);
     }
 
@@ -184,19 +180,14 @@ public class Player : MonoBehaviour
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
 
-       
         if (musicaFlash != null && musicaFlash.isPlaying)
             musicaFlash.Pause();
 
-        
         if (musicaFondo != null)
             musicaFondo.UnPause();
 
-        
         SetLightningEffects(false);
     }
-
-    
 
     void SetLightningEffects(bool active)
     {
