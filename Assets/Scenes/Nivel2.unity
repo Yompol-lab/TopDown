@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d114352cf1e32f429e4234316c141c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesToDefeat: 25
+  enemiesToDefeat: 30
   bossPrefab: {fileID: 4375385864622439500, guid: 30a13ab3121708543a93199099a59c93, type: 3}
   bossSpawnPoint: {fileID: 1591263554}
   bossHealthUI: {fileID: 20046396}
