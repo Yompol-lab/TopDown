@@ -391088,6 +391088,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1831255958706451436, guid: 465bf5f185a73d541a33379082dcf23d, type: 3}
+      propertyPath: bulletSpeed
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831255958706451436, guid: 465bf5f185a73d541a33379082dcf23d, type: 3}
       propertyPath: sonidoDisparo
       value: 
       objectReference: {fileID: 8300000, guid: ec2765031727f4d4db0972f9a7b419da, type: 3}
