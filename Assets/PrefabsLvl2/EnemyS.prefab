@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  health: 3
+  health: 100
   powerUpPrefab: {fileID: 0}
   bulletPrefab: {fileID: 3211339256411515289, guid: f83cc949875bb0846834322b43c85c86, type: 3}
   firePoint: {fileID: 4290479011855449092}
@@ -344,8 +344,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.796676, y: 2.4607563, z: 10.611299}
-  m_Center: {x: 0, y: -0.00000035762787, z: -0.000015735626}
+  m_Size: {x: 8.796676, y: 2.4607563, z: 6.483658}
+  m_Center: {x: 0, y: -0.00000035762787, z: -0.52394867}
 --- !u!54 &7129389953486037752
 Rigidbody:
   m_ObjectHideFlags: 0

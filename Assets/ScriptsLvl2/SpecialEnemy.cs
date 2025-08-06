@@ -42,6 +42,22 @@ public class SpecialEnemy : MonoBehaviour
             Shoot();
             ScheduleNextShot();
         }
+
+        // Movimiento horizontal
+        transform.Translate(Vector3.right * xMoveDirection * xMoveSpeed * Time.deltaTime, Space.World);
+
+        // Evitar que se salga del límite horizontal
+        if (transform.position.x <= -108.5f)
+        {
+            xMoveDirection = 1f;
+        }
+        else if (transform.position.x >= 112.9f)
+        {
+            xMoveDirection = -1f;
+        }
+
+
+
     }
 
     void PickNewDirection()
@@ -69,6 +85,7 @@ public class SpecialEnemy : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     public void TakeDamage(int damage)
     {
         health -= damage;

@@ -29,4 +29,10 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Credits");
     }
 
+    public void Jugar2()
+    {
+        SceneManager.LoadScene("Nivel2");
+    }
+
+
 }

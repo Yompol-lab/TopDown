@@ -78,6 +78,6 @@ public class BossEnemy : MonoBehaviour
 
     void Die()
     {
-        SceneManager.LoadScene("Victory");
+        SceneManager.LoadScene("Victoria");
     }
 }

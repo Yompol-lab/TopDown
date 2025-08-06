@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpecialEnemy Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5765273990716371872, guid: 44679d6f1b5be9449bc770e7f6c03970, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 6577945456318540058, guid: 44679d6f1b5be9449bc770e7f6c03970, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -220,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  health: 5
+  health: 150
   powerUpPrefab: {fileID: 3769658584533702056, guid: 76e39e77e3c44304b9d836d939ee8734, type: 3}
   bulletPrefab: {fileID: 3211339256411515289, guid: f83cc949875bb0846834322b43c85c86, type: 3}
   firePoint1: {fileID: 7625340698060099280}

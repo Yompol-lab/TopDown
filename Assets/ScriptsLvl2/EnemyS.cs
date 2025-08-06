@@ -16,6 +16,12 @@ public class EnemyS : MonoBehaviour
     private float dirTimer;
     private float fireTimer;
 
+    private float leftLimit = -108.5f;
+    private float rightLimit = 112.9f;
+
+
+
+
     void Start()
     {
         PickNewDirection();
@@ -41,6 +47,21 @@ public class EnemyS : MonoBehaviour
             Shoot();
             ScheduleNextShot();
         }
+
+
+        // Movimiento horizontal
+        transform.Translate(Vector3.right * xMoveDirection * xMoveSpeed * Time.deltaTime, Space.World);
+
+        // Verificamos si está fuera del rango
+        if (transform.position.x <= leftLimit)
+        {
+            xMoveDirection = 1f; // Mover a la derecha
+        }
+        else if (transform.position.x >= rightLimit)
+        {
+            xMoveDirection = -1f; // Mover a la izquierda
+        }
+
     }
 
     void PickNewDirection()
@@ -64,6 +85,7 @@ public class EnemyS : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     public void TakeDamage(int damage)
     {
         health -= damage;
